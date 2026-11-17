@@ -1,32 +1,34 @@
 # Site FEED4FOOD România
 
-Site static (HTML + CSS), publicat pe GitHub Pages.
+Site static (HTML + CSS), în română și engleză, publicat pe GitHub Pages:
+https://feed4food-ro.github.io/website/
 
 ## Structura
 
 | Ce | Unde |
 |---|---|
-| Conținutul fiecărei pagini | `_src/*.html` |
-| Meniul, subsolul, logo-urile de finanțare | `build.py` (șablonul comun) |
+| Conținutul paginilor în română | `_src/ro/*.html` → publicate la rădăcină (`despre.html` etc.) |
+| Conținutul paginilor în engleză | `_src/en/*.html` → publicate în `en/` (`en/about.html` etc.) |
+| Meniul, subsolul, textele comune, numele fișierelor pe limbi | `build.py` |
 | Design (culori, fonturi, aranjare) | `assets/style.css` |
-| Imagini | `img/` (echipa, parteneri, galerie) |
-| Paginile finale, publicate | `*.html` din acest folder (generate, nu le edita direct) |
+| Imagini (comune ambelor limbi) | `img/` |
+| Paginile finale | `*.html` și `en/*.html` (generate, nu le edita direct) |
+
+Comutatorul RO / EN din antet duce mereu la aceeași pagină în cealaltă limbă.
 
 ## Cum modifici ceva
 
-1. Editezi fișierul din `_src/` (de exemplu `_src/noutati.html` pentru o știre nouă).
+1. Editezi fișierul din `_src/ro/` și pe cel cu același nume din `_src/en/`
+   (de exemplu `_src/ro/noutati.html` și `_src/en/noutati.html` pentru o știre nouă).
+   În paginile în engleză, linkurile spre alte pagini folosesc numele englezești
+   (`about.html`, `news.html`, `results.html`...), vezi lista `PAGES` din `build.py`.
 2. Rulezi `python build.py`.
 3. Verifici local: `python -m http.server 8765`, apoi deschizi http://localhost:8765
 4. Faci commit și push. GitHub Pages actualizează site-ul în 1–2 minute.
 
-## Publicare pe GitHub Pages (o singură dată)
+## Publicare
 
-1. Creezi un repository nou pe github.com (de exemplu `feed4food-romania`), public.
-2. Din acest folder:
-   ```
-   git remote add origin https://github.com/<utilizator>/feed4food-romania.git
-   git push -u origin main
-   ```
-3. Pe GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch**, branch `main`, folder `/ (root)`.
-4. Site-ul apare la `https://<utilizator>.github.io/feed4food-romania/`.
-5. Opțional, adresă proprie: în **Settings → Pages → Custom domain** scrii domeniul (de exemplu `feed4food.ro`) și urmezi instrucțiunile DNS.
+Repository: `feed4food-ro/website`, branch `main`, folder `/ (root)`
+(Settings → Pages → Deploy from a branch).
+
+Opțional, adresă proprie: Settings → Pages → Custom domain.

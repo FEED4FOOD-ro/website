@@ -15,7 +15,8 @@ if (galleries.length) {
   box.className = 'lightbox';
   box.setAttribute('role', 'dialog');
   box.setAttribute('aria-modal', 'true');
-  box.innerHTML = '<button type="button" aria-label="Închide">×</button><img alt="">';
+  const closeLabel = document.documentElement.lang === 'en' ? 'Close' : 'Închide';
+  box.innerHTML = '<button type="button" aria-label="' + closeLabel + '">×</button><img alt="">';
   document.body.appendChild(box);
   const img = box.querySelector('img');
   const close = () => box.classList.remove('open');
