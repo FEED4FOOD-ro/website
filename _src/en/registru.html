@@ -167,7 +167,7 @@
             <label class="dash-field"><span>Day</span><input type="number" id="wf-day" min="1" max="31" step="1" inputmode="numeric"></label>
             <label class="dash-field"><span>Water for the crop</span><select id="wf-irr"></select></label>
             <label class="dash-field"><span>Yield (t/ha)</span><input type="number" id="wf-yield" min="0.1" step="0.1" inputmode="decimal"><small id="wf-yield-hint" class="wf-hint"></small></label>
-            <label class="dash-field"><span>Nitrogen applied (kg N/ha)</span><input type="number" id="wf-n" min="0" step="5" inputmode="numeric"></label>
+            <label class="dash-field wf-wide"><span>Nitrogen applied (kg N/ha)</span><input type="number" id="wf-n" min="0" step="5" inputmode="numeric"><small class="wf-hint">Nitrogen fertiliser dose, in kg per hectare. It is used only for grey water: 10% of the nitrogen is assumed to reach water and must be diluted. The value shown is indicative for the chosen crop; replace it with the actual dose (0 = no grey water).</small></label>
             <div class="dash-field wf-reset"><button type="button" class="btn outline sm" id="wf-reset">Default values</button></div>
           </div>
           <div id="wf-out">

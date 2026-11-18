@@ -104,3 +104,9 @@ th[aria-sort="descending"] .th-sort::after { content: " \25BC"; opacity: 1; }
 .wf-list li { margin-bottom: .5em; }
 @media (max-width: 760px) { .wf-cards { grid-template-columns: 1fr 1fr; } .wf-card--total { grid-column: 1 / -1; } }
 @media (max-width: 400px) { .wf-cards { grid-template-columns: 1fr; } }
+.wf-form { align-items: start; }
+.wf-form .dash-field { align-content: start; }
+.wf-form .wf-reset { align-self: end; }
+@media (min-width: 700px) { .wf-form .wf-wide { grid-column: span 2; } }
+.wf-form .wf-reset { align-self: start; }
+.wf-form .wf-reset::before { content: "\00a0"; }
