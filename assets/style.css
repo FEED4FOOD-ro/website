@@ -59,7 +59,7 @@ p { margin: 0 0 1em; }
 .nav-toggle { display: none; background: none; border: 1px solid rgba(255,255,255,.35); color: #fff; border-radius: 8px; padding: 6px 10px; font: 600 .9rem var(--font-head); cursor: pointer; }
 
 @media (min-width: 1280px) { .brand { flex-shrink: 0; } .brand span small { white-space: nowrap; } }
-@media (min-width: 1280px) and (max-width: 1439px) { .brand span small { display: none; } }
+@media (min-width: 1280px) and (max-width: 1519px) { .brand span small { display: none; } }
 @media (max-width: 1279px) {
   .nav-toggle { display: block; }
   .header-tools { margin-left: auto; }
