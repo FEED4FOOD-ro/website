@@ -31,19 +31,22 @@ PAGES = {
     "consortiu": {"ro": "consortiu.html", "en": "consortium.html"},
     "rezultate": {"ro": "rezultate.html", "en": "results.html"},
     "noutati": {"ro": "noutati.html", "en": "news.html"},
+    "registru": {"ro": "registru.html", "en": "registry.html"},
+    "metodologie": {"ro": "metodologie.html", "en": "methodology.html"},
     "contact": {"ro": "contact.html", "en": "contact.html"},
     "raportare-2024": {"ro": "raportare-2024.html", "en": "report-2024.html"},
     "raportare-2025": {"ro": "raportare-2025.html", "en": "report-2025.html"},
+    "raportare-2026": {"ro": "raportare-2026.html", "en": "report-2026.html"},
 }
 
 NAV = {
     "ro": [
         ("index", "Acasă"), ("despre", "Despre proiect"), ("laborator-bucuresti", "Laboratorul București"),
-        ("consortiu", "Consorțiu și echipă"), ("rezultate", "Rezultate"), ("noutati", "Noutăți"), ("contact", "Contact"),
+        ("consortiu", "Consorțiu și echipă"), ("rezultate", "Rezultate"), ("registru", "Dashboard"), ("metodologie", "Metodologie"), ("noutati", "Noutăți"), ("contact", "Contact"),
     ],
     "en": [
         ("index", "Home"), ("despre", "About"), ("laborator-bucuresti", "Bucharest Living Lab"),
-        ("consortiu", "Consortium & team"), ("rezultate", "Results"), ("noutati", "News"), ("contact", "Contact"),
+        ("consortiu", "Consortium & team"), ("rezultate", "Results"), ("registru", "Dashboard"), ("metodologie", "Methodology"), ("noutati", "News"), ("contact", "Contact"),
     ],
 }
 
@@ -103,7 +106,7 @@ TEMPLATE = """<!doctype html>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{base}assets/style.css">
-</head>
+{head_extra}</head>
 <body>
 <a class="skip" href="#main">{skip}</a>
 <header class="site-header">
@@ -157,7 +160,7 @@ TEMPLATE = """<!doctype html>
   </div>
 </footer>
 <script src="{base}assets/site.js" defer></script>
-</body>
+{scripts_extra}</body>
 </html>
 """
 
@@ -188,7 +191,11 @@ def build_page(lang, key):
     )
     footnav = "\n".join(f'          <li><a href="{PAGES[k][lang]}">{label}</a></li>' for k, label in NAV[lang])
     title = meta["title"] if key == "index" else f'{meta["title"]} · {t["site"]}'
+    # fișiere suplimentare doar pentru anumite pagini: "css" și "js" în comentariul de pe prima linie
+    head_extra = "".join(f'<link rel="stylesheet" href="{base}{f}">\n' for f in meta.get("css", []))
+    scripts_extra = "".join(f'<script src="{base}{f}" defer></script>\n' for f in meta.get("js", []))
     page = TEMPLATE.format(
+        head_extra=head_extra, scripts_extra=scripts_extra,
         lang=lang, base=base, title=html.escape(title), desc=html.escape(meta.get("desc", "")),
         nav=nav, footnav=footnav, body=body,
         sw_ro=rel(lang, "ro", PAGES[key]["ro"]), sw_en=rel(lang, "en", PAGES[key]["en"]),

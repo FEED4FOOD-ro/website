@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard · FEED4FOOD România</title>
+<meta name="description" content="Registrul de date al proiectului FEED4FOOD România: indicatori agricoli INS TEMPO și serii climatice ANM pentru București–Ilfov, cu grafice și export Excel.">
+<meta property="og:title" content="Dashboard · FEED4FOOD România">
+<meta property="og:description" content="Registrul de date al proiectului FEED4FOOD România: indicatori agricoli INS TEMPO și serii climatice ANM pentru București–Ilfov, cu grafice și export Excel.">
+<meta property="og:image" content="img/hero.jpg">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ro_RO">
+<link rel="alternate" hreflang="ro" href="registru.html">
+<link rel="alternate" hreflang="en" href="en/registry.html">
+<link rel="icon" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/dashboard.css">
+</head>
+<body>
+<a class="skip" href="#main">Sari la conținut</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="img/logo-alb.png" alt=""><span>FEED4FOOD<small>România · Universitatea din București</small></span></a>
+    <div class="header-tools">
+      <div class="lang-switch" role="group" aria-label="Limba / Language">
+        <a href="registru.html" hreflang="ro" lang="ro" aria-current="true">RO</a><a href="en/registry.html" hreflang="en" lang="en">EN</a>
+      </div>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Meniu</button>
+    </div>
+    <nav class="nav" id="nav" aria-label="Meniu principal">
+      <a href="index.html">Acasă</a>
+      <a href="despre.html">Despre proiect</a>
+      <a href="laborator-bucuresti.html">Laboratorul București</a>
+      <a href="consortiu.html">Consorțiu și echipă</a>
+      <a href="rezultate.html">Rezultate</a>
+      <a href="registru.html" aria-current="page">Dashboard</a>
+      <a href="metodologie.html">Metodologie</a>
+      <a href="noutati.html">Noutăți</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<header class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Dashboard</span>
+    <h1>Date pentru București–Ilfov</h1>
+    <p>Serii statistice și climatice pentru Regiunea București–Ilfov (agricultură INS TEMPO, climă ANM), cu grafice și export în Excel, plus calitatea aerului la stațiile din București.</p>
+  </div>
+</header>
+
+<section id="dash">
+  <div class="wrap">
+    <div class="dash-tabs" role="tablist" aria-label="Registru">
+      <button type="button" role="tab" id="tab-agri" aria-controls="p-agri" aria-selected="true">Agricultură</button>
+      <button type="button" role="tab" id="tab-clima" aria-controls="p-clima" aria-selected="false">Climă</button>
+      <button type="button" role="tab" id="tab-aer" aria-controls="p-aer" aria-selected="false">Calitatea aerului</button>
+    </div>
+
+    <div role="tabpanel" id="p-agri" aria-labelledby="tab-agri">
+      <div class="section-head">
+        <h2>Agricultura în București–Ilfov</h2>
+        <p>Inventarul seriilor statistice INS TEMPO pentru Regiunea București–Ilfov, Ilfov și Municipiul București. Apasă „Vezi datele” ca să vezi graficul și valorile pe ani.</p>
+      </div>
+      <div class="stats c3">
+        <div class="stat"><b>44</b><span>indicatori în registru</span></div>
+        <div class="stat"><b>33</b><span>indicatori cu date</span></div>
+        <div class="stat"><b>4.515</b><span>serii statistice (rânduri)</span></div>
+      </div>
+
+      <div class="dash-detail" id="detaliu" hidden>
+        <div class="dash-detail__head">
+          <div><p class="eyebrow" id="d-code"></p><h3 id="d-title"></h3></div>
+          <button type="button" class="btn outline sm" id="d-close">Închide</button>
+        </div>
+        <div class="dash-bar"><div class="dash-filters" id="d-filters"></div><button type="button" class="btn outline sm" id="d-reset">Resetează filtrele</button></div>
+        <p class="dash-unit" id="d-unit"></p>
+        <div class="dash-chart" id="d-chart" role="img" aria-label=""></div>
+        <p class="dash-note" id="d-note" hidden></p>
+        <div class="dash-tablehead"><b>Valori pe ani</b><button type="button" class="btn outline sm" id="d-xlsx">Excel</button></div>
+        <div class="dash-scroll"><table class="dash-table" id="d-table"></table></div>
+      </div>
+
+      <div class="dash-tools">
+        <label class="dash-field dash-search"><span class="sr">Caută după cod sau indicator</span><input type="search" id="reg-search" placeholder="Caută după cod sau indicator"></label>
+        <label class="dash-field"><span class="sr">Categorie</span><select id="reg-cat"><option value="">Toate categoriile</option><option value="Culturi vegetale">Culturi vegetale</option><option value="Economie agricolă și muncă">Economie agricolă și muncă</option><option value="Fond funciar și îmbunătățiri">Fond funciar și îmbunătățiri</option><option value="Mecanizare și input-uri">Mecanizare și input-uri</option><option value="Viticultură și pomicultură">Viticultură și pomicultură</option><option value="Zootehnie">Zootehnie</option></select></label>
+        <label class="dash-field"><span class="sr">Disponibilitate</span><select id="reg-av"><option value="">Toate</option><option value="yes">Disponibil</option><option value="no">Fără date</option></select></label>
+        <button type="button" class="btn outline sm" id="reg-xlsx">Excel</button>
+      </div>
+      <p class="dash-count" id="reg-count" aria-live="polite"></p>
+      <div class="dash-scroll dash-scroll--reg">
+        <table class="dash-table dash-table--reg" id="reg-table">
+          <caption class="sr">Registru indicatori INS TEMPO</caption>
+          <thead><tr><th scope="col"><button type="button" class="th-sort" data-col="0">Cod</button></th><th scope="col"><button type="button" class="th-sort" data-col="1">Indicator</button></th><th scope="col"><button type="button" class="th-sort" data-col="2">Categorie</button></th><th scope="col"><button type="button" class="th-sort" data-col="3">Acoperire</button></th><th scope="col"><button type="button" class="th-sort" data-col="4">Perioada</button></th><th scope="col"><button type="button" class="th-sort" data-col="5">Serii</button></th><th scope="col">Disponibilitate</th></tr></thead>
+          <tbody>
+<tr><td data-label="Cod"><b>AGR101A</b></td><td data-label="Indicator">Suprafata fondului funciar dupa modul de folosinta, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Fond funciar și îmbunătățiri</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2014</td><td data-label="Serii" class="n">82</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR101A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR101B</b></td><td data-label="Indicator">Suprafata fondului funciar dupa modul de folosinta, pe judete si localitati</td><td data-label="Categorie">Fond funciar și îmbunătățiri</td><td data-label="Acoperire">Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2014</td><td data-label="Serii" class="n">896</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR101B">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR102A</b></td><td data-label="Indicator">Suprafata terenurilor amenajate cu lucrari de irigatii si suprafata agricola irigata, pe categorii de folosinta a terenurilor, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Fond funciar și îmbunătățiri</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov</td><td data-label="Perioada">1997–2025</td><td data-label="Serii" class="n">10</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR102A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR102B</b></td><td data-label="Indicator">Suprafata terenurilor amenajate cu lucrari de desecare, pe categorii de folosinta a terenurilor, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Fond funciar și îmbunătățiri</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov</td><td data-label="Perioada">1997–2025</td><td data-label="Serii" class="n">14</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR102B">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR102C</b></td><td data-label="Indicator">Suprafata terenurilor amenajate cu lucrari de ameliorare si combaterea eroziunii solului, pe categorii de folosinta a terenurilor, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Fond funciar și îmbunătățiri</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov</td><td data-label="Perioada">1997–2025</td><td data-label="Serii" class="n">20</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR102C">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR103A</b></td><td data-label="Indicator">Parcul de tractoare si masini agricole principale din agricultura (la sfarsitul anului) pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Mecanizare și input-uri</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">66</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR103A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR104A</b></td><td data-label="Indicator">Cantitatea de ingrasaminte chimice si naturale folosite in agricultura, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Mecanizare și input-uri</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2024</td><td data-label="Serii" class="n">30</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR104A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR105A</b></td><td data-label="Indicator">Suprafata terenurilor pe care s-au aplicat ingrasaminte chimice si naturale pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Mecanizare și input-uri</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2024</td><td data-label="Serii" class="n">30</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR105A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR106A</b></td><td data-label="Indicator">Cantitatea de pesticide aplicate in agricultura, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Mecanizare și input-uri</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2024</td><td data-label="Serii" class="n">18</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR106A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR107A</b></td><td data-label="Indicator">Suprafata terenurilor pe care s-au aplicat pesticide, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Mecanizare și input-uri</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2024</td><td data-label="Serii" class="n">18</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR107A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR108A</b></td><td data-label="Indicator">Suprafata cultivata cu principalele culturi, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Culturi vegetale</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">561</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR108A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR108B</b></td><td data-label="Indicator">Suprafata cultivata cu principalele culturi, pe judete si localitati</td><td data-label="Categorie">Culturi vegetale</td><td data-label="Acoperire">Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2003</td><td data-label="Serii" class="n">201</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR108B">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR109A</b></td><td data-label="Indicator">Productia agricola vegetala la principalele culturi, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Culturi vegetale</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">462</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR109A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR109B</b></td><td data-label="Indicator">Productia agricola vegetala la principalele culturi, pe judete si localitati</td><td data-label="Categorie">Culturi vegetale</td><td data-label="Acoperire">Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2003</td><td data-label="Serii" class="n">198</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR109B">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR110A</b></td><td data-label="Indicator">Productia medie la hectar, la principalele culturi, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Culturi vegetale</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">354</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR110A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR111A</b></td><td data-label="Indicator">Suprafata viilor pe rod, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Viticultură și pomicultură</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">45</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR111A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR112A</b></td><td data-label="Indicator">Productia totala de struguri, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Viticultură și pomicultură</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">45</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR112A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR112B</b></td><td data-label="Indicator">Productia totala de struguri pe judete si localitati</td><td data-label="Categorie">Viticultură și pomicultură</td><td data-label="Acoperire">Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2003</td><td data-label="Serii" class="n">40</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR112B">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR113A</b></td><td data-label="Indicator">Productia medie de struguri la hectar, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Viticultură și pomicultură</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">27</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR113A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR114A</b></td><td data-label="Indicator">Numarul pomilor fructiferi, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Viticultură și pomicultură</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">90</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR114A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR115A</b></td><td data-label="Indicator">Productia de fructe pe specii de pomi, forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Viticultură și pomicultură</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">108</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR115A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR115B</b></td><td data-label="Indicator">Productia de fructe pe judete si localitati</td><td data-label="Categorie">Viticultură și pomicultură</td><td data-label="Acoperire">Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2003</td><td data-label="Serii" class="n">39</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR115B">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR116A</b></td><td data-label="Indicator">Productia medie de fructe pe specii de pomi, forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Viticultură și pomicultură</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">90</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR116A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR200A</b></td><td data-label="Indicator">Productia principalelor produse agricole, pe locuitor</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR201A</b></td><td data-label="Indicator">Efectivele de animale, pe categorii de animale, forme de proprietate, macroregiuni, regiuni de dezvoltare si judete, la sfarsitul anului</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">153</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR201A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR201B</b></td><td data-label="Indicator">Efectivele de animale, pe principalele categorii de animale, forme de proprietate, judete si localitati, la sfarsitul anului</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2003</td><td data-label="Serii" class="n">319</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR201B">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR201C</b></td><td data-label="Indicator">Animale ce revin la 100 ha teren, pe principalele categorii de animale, forme de proprietate, macroregiuni, regiuni de dezvoltare si judete, la sfarsitul anului</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">36</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR201C">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR201D</b></td><td data-label="Indicator">Efectivele de porcine existente la 1 aprilie, pe grupe de greutate si destinatie economica</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR201E</b></td><td data-label="Indicator">Efectivele de bovine existente la 1 iunie, pe grupe de varsta si destinatie economica</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR201F</b></td><td data-label="Indicator">Efectivele de porcine existente la 1 august, pe grupe de greutate si destinatie economica</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR201G</b></td><td data-label="Indicator">Efectivele de porcine existente la 1 mai, pe grupe de greutate si destinatie economica</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR202A</b></td><td data-label="Indicator">Productia agricola animala pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2025</td><td data-label="Serii" class="n">265</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR202A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR202B</b></td><td data-label="Indicator">Productia agricola animala pe judete si localitati</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2003</td><td data-label="Serii" class="n">160</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR202B">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR203A</b></td><td data-label="Indicator">Productia medie pe un animal, pe forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Zootehnie</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2003</td><td data-label="Serii" class="n">36</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR203A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR204A</b></td><td data-label="Indicator">Valoarea productiei agricole, pe sectoare, forme de proprietate, macroregiuni, regiuni de dezvoltare si judete</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2000</td><td data-label="Serii" class="n">18</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR204A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR205A</b></td><td data-label="Indicator">Indicii productiei agricole pe sectoare, forme de proprietate, macroregiuni, regiuni de dezvoltare si judete - an de baza=an precedent</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">1990–2000</td><td data-label="Serii" class="n">18</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR205A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR206A</b></td><td data-label="Indicator">Valoarea productiei ramurii agricole pe sectoare, forme de proprietate, macroregiuni, regiuni de dezvoltare si judete - serie noua</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">2001–2024</td><td data-label="Serii" class="n">48</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR206A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR207A</b></td><td data-label="Indicator">Indicii productiei ramurii agricole pe sectoare, forme de proprietate, macroregiuni, regiuni de dezvoltare si judete - an de baza=an precedent - serie noua</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Regiunea BUCURESTI - ILFOV; Ilfov; Municipiul Bucuresti</td><td data-label="Perioada">2001–2024</td><td data-label="Serii" class="n">18</td><td data-label="Disponibilitate" data-filter="yes"><button type="button" class="btn outline sm" data-open="AGR207A">Vezi datele</button></td></tr>
+<tr><td data-label="Cod"><b>AGR208A</b></td><td data-label="Indicator">Conturile economice din agricultura, preturi curente</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR208B</b></td><td data-label="Indicator">Conturile economice din agricultura, preturile anului precedent</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR209A</b></td><td data-label="Indicator">Statistica valorilor unitare, preturi de baza</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR209B</b></td><td data-label="Indicator">Statistica valorilor unitare, preturile producatorului</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR209C</b></td><td data-label="Indicator">Statistica valorilor unitare - cantitati</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+<tr><td data-label="Cod"><b>AGR210A</b></td><td data-label="Indicator">Volumul fortei de munca din agricultura</td><td data-label="Categorie">Economie agricolă și muncă</td><td data-label="Acoperire">Fără defalcare teritorială pentru aria solicitată</td><td data-label="Perioada">—</td><td data-label="Serii" class="n">0</td><td data-label="Disponibilitate" data-filter="no"><span class="muted">Fără date</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted dash-source">Sursa datelor: Institutul Național de Statistică, baza TEMPO-Online. Denumirile indicatorilor sunt cele oficiale.</p>
+    </div>
+
+    <div role="tabpanel" id="p-clima" aria-labelledby="tab-clima" hidden>
+      <div class="section-head">
+        <h2>Vremea și clima în București–Ilfov</h2>
+        <p>Serii climatice zilnice de la stațiile Administrației Naționale de Meteorologie din București și Ilfov, agregate lunar și anual.</p>
+      </div>
+      <div class="stats c3">
+        <div class="stat"><b>3</b><span>stații meteorologice</span></div>
+        <div class="stat"><b>131</b><span>ani de observații (din 1895)</span></div>
+        <div class="stat"><b>8</b><span>parametri climatici</span></div>
+      </div>
+      <div class="dash-detail" id="m-panel">
+        <div class="dash-bar">
+          <div class="dash-filters">
+            <label class="dash-field"><span>Stația</span><select id="m-st"></select></label>
+            <label class="dash-field"><span>Parametrul</span><select id="m-var"></select></label>
+            <label class="dash-field"><span>Rezoluția</span><select id="m-res"></select></label>
+          </div>
+        </div>
+        <p class="dash-unit" id="m-unit"></p>
+        <div class="dash-chart" id="m-chart" role="img" aria-label=""></div>
+        <div class="dash-tablehead"><b>Valori pe perioade</b><button type="button" class="btn outline sm" id="m-xlsx">Excel</button></div>
+        <div class="dash-scroll"><table class="dash-table" id="m-table"></table></div>
+        <p class="dash-note">Valorile lunare sunt calculate din observațiile zilnice; o lună rămâne goală dacă are mai puțin de 80% din zile cu date valide. Valoarea anuală cere cel puțin 11 luni valide (12 pentru precipitații). Normalele acoperă perioada 1991–2020.</p>
+        <p class="dash-note">Sursa: Administrația Națională de Meteorologie (2026), Date climatice zilnice la stațiile meteorologice, portalul de date deschise Meteo România, licență CC BY 4.0. <a href="https://opendata.geo.meteoromania.ro/catalog/ro.anm.obs.climate.daily/" rel="noopener">opendata.geo.meteoromania.ro</a></p>
+      </div>
+    </div>
+
+    <div role="tabpanel" id="p-aer" aria-labelledby="tab-aer" hidden>
+      <div class="section-head"><h2>Calitatea aerului</h2><p>Concentrații de PM10, PM2,5, NO₂ și O₃ la stațiile din București, 2013–2025: date verificate raportate de România către Agenția Europeană de Mediu.</p></div>
+      <div class="dash-detail" id="a-panel">
+        <div class="dash-bar">
+          <div class="dash-filters">
+            <label class="dash-field"><span>Stația</span><select id="a-st"></select></label>
+            <label class="dash-field"><span>Parametrul</span><select id="a-var"></select></label>
+            <label class="dash-field"><span>Rezoluția</span><select id="a-res"></select></label>
+          </div>
+        </div>
+        <p class="dash-unit" id="a-unit"></p>
+        <div class="dash-chart" id="a-chart" role="img" aria-label=""></div>
+        <div class="dash-tablehead"><b>Valori pe perioade</b><button type="button" class="btn outline sm" id="a-xlsx">Excel</button></div>
+        <div class="dash-scroll"><table class="dash-table" id="a-table"></table></div>
+        <p class="dash-note">Date verificate (E1a) raportate de România (ANPM / RNMCA) către EEA, stațiile din București B1–B6 și B9: fond urban (B1, B9), industriale (B2, B4, B5), trafic (B3, B6). Mediile lunare se calculează din valori zilnice (sau orare, cu cel puțin 18 ore valide pe zi); o lună rămâne goală dacă are mai puțin de 75% din zile valide, iar media anuală cere cel puțin 9 luni valide. Nu toate stațiile măsoară toți poluanții, iar B9 are date din 2022. Linia roșie arată valoarea limită anuală din Directiva 2008/50/CE (PM10 și NO₂: 40 µg/m³, PM2,5: 25 µg/m³).</p>
+        <p class="dash-note">Sursa: <a href="https://www.eea.europa.eu/en/datahub/datahubitem-view/778ef9f5-6293-4846-badd-56a29c70880d" rel="noopener">EEA Air Quality Download Service</a>.</p>
+      </div>
+      <h3 class="mt">Surse și descărcări</h3>
+      <div class="grid c2">
+<article class="card src"><span class="tag">Observații</span><h3>RNMCA – Rețeaua Națională de Monitorizare a Calității Aerului</h3><p class="src-by">calitateaer.ro · Ministerul Mediului / ANPM</p><p>Peste 100 de stații pe teritoriul României, cu indici de calitate și valori măsurate actualizate orar. Valorile afișate sunt în curs de validare și certificare. Datele istorice se află în secțiunea „Rapoarte”, iar site-ul are și o secțiune „Webservice”.</p><dl class="kv"><dt>Acces</dt><dd>Consultare liberă pe site; citește „Termeni și condiții” înainte de reutilizare.</dd></dl><p class="src-links"><a href="https://www.calitateaer.ro/public/home-page/?__locale=ro" rel="noopener">calitateaer.ro</a></p></article>
+<article class="card src"><span class="tag">Observații</span><h3>Serviciul de descărcare EEA – calitatea aerului</h3><p class="src-by">Agenția Europeană de Mediu</p><p>Serii de timp ale măsurătorilor raportate de statele membre (inclusiv România), cu date verificate și actualizate din 2013 până azi. Poluanții din indicele european: PM10, PM2,5, O₃, NO₂, SO₂.</p><dl class="kv"><dt>Acces</dt><dd>Pagină web de descărcare sau API; fișierele sunt livrate ca Parquet arhivat, accesibil prin script sau servicii web.</dd><dt>Perioadă</dt><dd>2013 – prezent</dd><dt>Spațial</dt><dd>Serviciu separat per stație de monitorizare (WMS, WFS)</dd></dl><p class="src-links"><a href="https://www.eea.europa.eu/en/datahub/datahubitem-view/778ef9f5-6293-4846-badd-56a29c70880d" rel="noopener">EEA Air Quality download service</a></p></article>
+<article class="card src"><span class="tag">Modelat</span><h3>CAMS – reanalize europene ale calității aerului</h3><p class="src-by">Copernicus Atmosphere Data Store</p><p>Câmpuri orare pe grilă, combinând un ansamblu de 11 sisteme de modelare cu observațiile EEA. Utile pentru zonele dintre stații. Există versiune provizorie (date nevalidate) și versiune validată, la aproximativ un an distanță.</p><dl class="kv"><dt>Rezoluție</dt><dd>0,1° (aprox. 10 km), orar</dd><dt>Perioadă</dt><dd>2013 – 2025</dd><dt>Format</dt><dd>NetCDF</dd><dt>Variabile</dt><dd>NO₂, NO, O₃, PM10, PM2,5, CO, NH₃ ș.a.</dd></dl><p class="src-links"><a href="https://ads.atmosphere.copernicus.eu/datasets/cams-europe-air-quality-reanalyses" rel="noopener">Set de date CAMS</a></p></article>
+<article class="card src"><span class="tag">Agregator</span><h3>OpenAQ</h3><p class="src-by">Organizație nonprofit</p><p>Acces liber, prin hartă și API, la date de calitate a aerului adunate de la furnizori oficiali din toată lumea. Verifică ce stații din România sunt listate înainte de a te baza pe el.</p><dl class="kv"><dt>Acces</dt><dd>Hartă interactivă și API</dd></dl><p class="src-links"><a href="https://openaq.org/" rel="noopener">openaq.org</a></p></article>
+      </div>
+      <p class="dash-note mt">Linkurile duc la furnizorii originali; seturile descărcabile nu sunt găzduite aici. Verifică condițiile de utilizare ale fiecărui furnizor înainte de a redistribui datele. Informațiile despre surse au fost verificate pe paginile furnizorilor în noiembrie 2026.</p>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <h4>FEED4FOOD România</h4>
+        <p>Comunități vulnerabile care stimulează inovarea și guvernanța sistemelor alimentare durabile în orașele europene.</p>
+        <p>Universitatea din București<br>Strada Panduri 90, 050663 București<br><a href="mailto:daniel.diaconu@unibuc.ro">daniel.diaconu@unibuc.ro</a></p>
+      </div>
+      <div>
+        <h4>Pagini</h4>
+        <ul>
+          <li><a href="index.html">Acasă</a></li>
+          <li><a href="despre.html">Despre proiect</a></li>
+          <li><a href="laborator-bucuresti.html">Laboratorul București</a></li>
+          <li><a href="consortiu.html">Consorțiu și echipă</a></li>
+          <li><a href="rezultate.html">Rezultate</a></li>
+          <li><a href="registru.html">Dashboard</a></li>
+          <li><a href="metodologie.html">Metodologie</a></li>
+          <li><a href="noutati.html">Noutăți</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Urmărește-ne</h4>
+        <ul>
+          <li><a href="https://www.facebook.com/profile.php?id=61557230353816" rel="noopener">Facebook FEED4FOOD România</a></li>
+          <li><a href="https://www.linkedin.com/company/feed4foodromaniaresearch/" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://feed4food.eu/" rel="noopener">feed4food.eu (proiectul european)</a></li>
+          <li><a href="https://www.facebook.com/feed4foodeu" rel="noopener">Facebook FEED4FOOD EU</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="funding">
+      <img src="img/finantare.png" alt="Driving Urban Transitions · Co-funded by the European Union" width="900" height="150">
+      <div>
+        <p>Proiect finanțat prin PN4, Programul 5.8. Cooperare europeană și internațională, Subprogramul 5.8.1. Orizont Europa (COFUND), contract nr. 50/2024. Autoritate contractantă: Unitatea Executivă pentru Finanțarea Învățământului Superior, a Cercetării, Dezvoltării și Inovării (UEFISCDI).</p>
+        <p>FEED4FOOD, Grant Agreement nr. 101069506, este finanțat în cadrul parteneriatului Driving Urban Transitions, cofinanțat de Uniunea Europeană. Opiniile exprimate aparțin exclusiv autorilor și nu reflectă neapărat pe cele ale Uniunii Europene.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+<script src="assets/site.js" defer></script>
+<script src="assets/dashboard/echarts.min.js" defer></script>
+<script src="assets/dashboard/xlsx.js" defer></script>
+<script src="assets/dashboard.js" defer></script>
+</body>
+</html>

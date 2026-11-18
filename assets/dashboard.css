@@ -1,0 +1,84 @@
+/* FEED4FOOD România — pagina „Date” (registru + climă). Se încarcă doar pe această pagină. */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.stats.c3 { grid-template-columns: repeat(3, 1fr); margin-bottom: 28px; }
+@media (max-width: 640px) { .stats.c3 { grid-template-columns: 1fr; } }
+.btn.sm { padding: 7px 14px; font-size: .85rem; }
+button.btn { cursor: pointer; }
+
+/* Tabs */
+.dash-tabs { display: flex; gap: 6px; border-bottom: 2px solid var(--line); margin-bottom: 32px; overflow-x: auto; overflow-y: hidden; }
+.dash-tabs button { background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -2px; padding: 12px 18px; font: 700 1rem var(--font-head); color: var(--muted); cursor: pointer; white-space: nowrap; }
+.dash-tabs button:hover { color: var(--teal); }
+.dash-tabs button[aria-selected="true"] { color: var(--teal); border-bottom-color: var(--green); }
+.dash-tabs button:focus-visible, .dash-table button:focus-visible, .dash-field select:focus-visible, .dash-field input:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+[role="tabpanel"][hidden], .dash-detail[hidden] { display: none; }
+
+/* Filters and tools */
+.dash-tools, .dash-bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-bottom: 14px; }
+.dash-bar { justify-content: space-between; }
+.dash-filters { display: flex; flex-wrap: wrap; gap: 14px; min-width: 0; }
+.dash-field { display: grid; gap: 4px; font-size: .85rem; color: var(--muted); min-width: 0; }
+.dash-field select, .dash-field input { font: 600 .95rem var(--font-body); color: var(--ink); background: #fff; border: 1px solid #b9c7c3; border-radius: 10px; padding: 9px 12px; max-width: 100%; min-height: 42px; }
+.dash-search { flex: 1 1 260px; }
+.dash-search input { width: 100%; }
+.dash-tools .btn { margin-left: auto; }
+.dash-count { color: var(--muted); font-size: .92rem; margin: 0 0 10px; }
+.dash-source, .dash-note { font-size: .9rem; color: var(--muted); max-width: 70ch; }
+.dash-source { margin-top: 18px; }
+.dash-unit { color: var(--muted); font-size: .92rem; margin-bottom: 6px; }
+
+/* Detail / chart panel */
+.dash-detail { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(16px, 3vw, 28px); margin-bottom: 28px; min-width: 0; }
+.dash-detail__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
+.dash-detail__head h3 { margin: 0; max-width: 60ch; font-size: 1.2rem; }
+.dash-chart { width: 100%; height: 360px; }
+.dash-tablehead { display: flex; justify-content: space-between; align-items: center; margin: 14px 0 10px; }
+
+/* Tables */
+.dash-scroll { overflow: auto; border: 1px solid var(--line); border-radius: 10px; background: #fff; max-height: 340px; }
+.dash-scroll--reg { max-height: none; }
+.dash-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: .95rem; }
+.dash-table th, .dash-table td { padding: 10px 14px; border-bottom: 1px solid var(--line); text-align: right; vertical-align: top; font-variant-numeric: tabular-nums; }
+.dash-table thead th { position: sticky; top: 0; z-index: 2; background: var(--green-soft); color: var(--teal); font: 700 .88rem var(--font-head); white-space: nowrap; }
+.dash-table tbody th { text-align: left; font-weight: 700; color: var(--teal); }
+.dash-table tbody tr:last-child td, .dash-table tbody tr:last-child th { border-bottom: 0; }
+.dash-table--reg th, .dash-table--reg td { text-align: left; }
+.dash-table--reg td.n, .dash-table--reg th:nth-child(6) { text-align: center; }
+.dash-table--reg td:nth-child(2) { min-width: 18rem; }
+.dash-table--reg td:nth-child(4) { min-width: 12rem; color: var(--muted); }
+.th-sort { background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; text-align: inherit; }
+.th-sort::after { content: " \2195"; opacity: .35; font-size: .8em; }
+th[aria-sort="ascending"] .th-sort::after { content: " \25B2"; opacity: 1; }
+th[aria-sort="descending"] .th-sort::after { content: " \25BC"; opacity: 1; }
+.dash-empty td { text-align: center; color: var(--muted); padding: 24px; }
+
+/* Registry table stacks into cards on narrow screens */
+@media (max-width: 760px) {
+  .dash-table--reg thead { display: none; }
+  .dash-table--reg, .dash-table--reg tbody, .dash-table--reg tr, .dash-table--reg td { display: block; width: 100%; }
+  .dash-table--reg tr { border-bottom: 1px solid var(--line); padding: 10px 4px; }
+  .dash-table--reg td { border: 0; padding: 3px 12px; text-align: left !important; min-width: 0 !important; }
+  .dash-table--reg td::before { content: attr(data-label) ": "; font: 700 .78rem var(--font-head); text-transform: uppercase; letter-spacing: .05em; color: var(--muted); }
+  .dash-table--reg td[data-label="Cod"]::before, .dash-table--reg td[data-label="Code"]::before { content: none; }
+  .dash-table--reg td button { margin-top: 6px; }
+  .dash-chart { height: 300px; }
+  .dash-detail__head { flex-direction: column; }
+}
+
+/* Source cards (Hidrologie, Calitatea aerului, Folosința terenului) */
+.card.src { gap: 0; }
+.card.src h3 { margin-bottom: .15em; }
+.src-by { color: var(--muted); font-size: .92rem; margin-bottom: .7em; }
+.card.src .kv { margin: 4px 0 12px; font-size: .95rem; }
+.src-links { margin: auto 0 0; padding-top: 6px; font: 700 .92rem var(--font-head); }
+.card.src .kv + .src-links { padding-top: 0; }
+
+/* Methodology page */
+.notice { background: var(--green-soft); border-bottom: 1px solid var(--line); font-size: .95rem; }
+.notice .wrap { padding-top: 12px; padding-bottom: 12px; color: var(--teal); }
+.tabbar { background: #fff; border-bottom: 1px solid var(--line); position: sticky; top: 68px; z-index: 40; }
+.tabbar .dash-tabs { margin: 0; border-bottom: 0; }
+.tablewrap { overflow-x: auto; }
+.steps-grid { list-style: none; padding: 0; margin: 0; }
+.btn[disabled] { opacity: .55; cursor: not-allowed; }
+.btn[disabled]:hover { background: transparent; color: var(--teal); }

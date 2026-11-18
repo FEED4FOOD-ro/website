@@ -14,6 +14,17 @@ https://feed4food-ro.github.io/website/
 | Imagini (comune ambelor limbi) | `img/` |
 | Paginile finale | `*.html` și `en/*.html` (generate, nu le edita direct) |
 
+### Pagina „Dashboard” (registru, climă, surse deschise)
+
+Pagina `registru.html` / `en/registry.html` are tabelul de indicatori INS TEMPO cu grafice pe ani și seriile climatice ANM.
+Codul stă în `assets/dashboard.js` și `assets/dashboard.css`, iar datele în `assets/dashboard/` (`data.json`, `meteo.json`,
+`i18n-en.json`, plus bibliotecile `echarts.min.js` și `xlsx.js`). Se încarcă doar pe această pagină: în comentariul de pe prima
+linie din `_src/*/registru.html`, cheile `"css"` și `"js"` spun ce fișiere suplimentare primește pagina.
+Tabul Calitatea aerului are grafice din `assets/dashboard/air.json` (EEA, stațiile din București, 2013–2025) și un catalog de surse deschise.
+Fișierul se reface cu `python tools/build_air.py` (cere `pip install pyarrow` și internet, nu cont). Cardurile de surse sunt scrise direct în `_src/*/registru.html`.
+Pagina „Metodologie” (`metodologie.html` / `en/methodology.html`) are taburi simple (`assets/tabs.js`); conținutul ei este încă un draft de lucru.
+Pentru date noi se înlocuiesc `data.json` / `meteo.json` și, dacă apar indicatori noi, rândurile din tabelul din `_src/*/registru.html`.
+
 Comutatorul RO / EN din antet duce mereu la aceeași pagină în cealaltă limbă.
 
 ## Cum modifici ceva
