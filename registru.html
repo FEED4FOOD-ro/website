@@ -16,8 +16,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/dashboard.css">
+<link rel="stylesheet" href="assets/style.css?v=3b746baf">
+<link rel="stylesheet" href="assets/dashboard.css?v=a5390837">
 </head>
 <body>
 <a class="skip" href="#main">Sari la conținut</a>
@@ -58,6 +58,7 @@
       <button type="button" role="tab" id="tab-agri" aria-controls="p-agri" aria-selected="true">Agricultură</button>
       <button type="button" role="tab" id="tab-clima" aria-controls="p-clima" aria-selected="false">Climă</button>
       <button type="button" role="tab" id="tab-aer" aria-controls="p-aer" aria-selected="false">Calitatea aerului</button>
+      <button type="button" role="tab" id="tab-apa" aria-controls="p-apa" aria-selected="false">Amprenta de apă</button>
     </div>
 
     <div role="tabpanel" id="p-agri" aria-labelledby="tab-agri">
@@ -199,6 +200,52 @@
       </div>
       <p class="dash-note mt">Linkurile duc la furnizorii originali; seturile descărcabile nu sunt găzduite aici. Verifică condițiile de utilizare ale fiecărui furnizor înainte de a redistribui datele. Informațiile despre surse au fost verificate pe paginile furnizorilor în noiembrie 2026.</p>
     </div>
+
+    <div role="tabpanel" id="p-apa" aria-labelledby="tab-apa" hidden>
+      <div class="section-head"><h2>Amprenta de apă a culturilor</h2><p>Calculează amprenta de apă a unei culturi, pe kilogram de produs, în același stil în care se calculează amprenta de carbon: apa verde (ploaie), apa albastră (irigare) și apa cenușie (apa necesară pentru a dilua azotul pierdut în mediu). Alege țara, cultura și data plantării; randamentul implicit este media INS pentru București–Ilfov.</p></div>
+      <div id="wf">
+        <div class="dash-detail">
+          <div class="wf-form">
+            <label class="dash-field"><span>Țara</span><select id="wf-loc"></select><small id="wf-loc-hint" class="wf-hint"></small></label>
+            <label class="dash-field"><span>Cultura</span><select id="wf-crop"></select></label>
+            <label class="dash-field"><span>Luna plantării</span><select id="wf-month"></select></label>
+            <label class="dash-field"><span>Ziua</span><input type="number" id="wf-day" min="1" max="31" step="1" inputmode="numeric"></label>
+            <label class="dash-field"><span>Apa pentru cultură</span><select id="wf-irr"></select></label>
+            <label class="dash-field"><span>Randament (t/ha)</span><input type="number" id="wf-yield" min="0.1" step="0.1" inputmode="decimal"><small id="wf-yield-hint" class="wf-hint"></small></label>
+            <label class="dash-field"><span>Azot aplicat (kg N/ha)</span><input type="number" id="wf-n" min="0" step="5" inputmode="numeric"></label>
+            <div class="dash-field wf-reset"><button type="button" class="btn outline sm" id="wf-reset">Valori implicite</button></div>
+          </div>
+          <div id="wf-out">
+            <div class="wf-cards" aria-live="polite">
+              <div class="wf-card wf-card--total"><span class="wf-label">Amprenta totală</span><b id="wf-total">–</b><span class="wf-unit">litri de apă pe kilogram</span><span class="wf-sub" id="wf-100"></span></div>
+              <div class="wf-card wf-card--g"><span class="wf-label">Apă verde</span><b id="wf-g">–</b><span class="wf-sub">ploaie folosită de plantă</span></div>
+              <div class="wf-card wf-card--b"><span class="wf-label">Apă albastră</span><b id="wf-b">–</b><span class="wf-sub">irigare necesară</span></div>
+              <div class="wf-card wf-card--y"><span class="wf-label">Apă cenușie</span><b id="wf-y">–</b><span class="wf-sub">diluarea azotului pierdut</span></div>
+            </div>
+            <p class="dash-note" id="wf-season"></p>
+            <p class="dash-note" id="wf-ha"></p>
+            <p class="dash-note wf-warn" id="wf-note" hidden></p>
+            <h3 id="wf-cmp-title" class="wf-h3"></h3>
+            <div class="dash-chart wf-chart-tall" id="wf-cmp" role="img" aria-label="Amprenta de apă a culturilor"></div>
+            <h3 class="wf-h3">Apa pe luni, în sezonul de vegetație</h3>
+            <div class="dash-chart" id="wf-mon" role="img" aria-label="Apa pe luni, în sezonul de vegetație"></div>
+            <div class="dash-tablehead"><b>Valori pe luni</b><button type="button" class="btn outline sm" id="wf-xlsx">Excel</button></div>
+            <div class="dash-scroll"><table class="dash-table" id="wf-table"></table></div>
+          </div>
+        </div>
+        <h3 class="mt">Cum se calculează</h3>
+        <ul class="wf-list"><li>Necesarul de apă al culturii se calculează zi de zi ca ETc = Kc × ET0, cu coeficienții de cultură Kc și duratele fazelor din FAO-56 (Allen et al., 1998, Tabelele 11 și 12).</li><li>Apa verde este cea mai mică valoare dintre ETc și ploaia efectivă; apa albastră este diferența până la ETc (doar la cultura irigată); apa cenușie este α × N / (c<sub>max</sub> − c<sub>nat</sub>), cu α = 10% din azot pierdut, c<sub>max</sub> = 10 mg N/L și c<sub>nat</sub> = 0.</li><li>Amprenta (litri pe kg) este apa folosită pe hectar (m³/ha) împărțită la randament (t/ha), după Manualul Water Footprint Network (Hoekstra et al., 2011).</li></ul>
+        <h3 class="mt">Ipoteze și limite</h3>
+        <ul class="wf-list"><li>ET0 și precipitațiile sunt medii lunare 1991–2020 din reanalize meteorologice (Open-Meteo, CC BY 4.0), nu măsurători, calculate pentru un punct sau două din fiecare țară (vezi sub câmpul Țara), deci nu reprezintă toată țara; ploaia efectivă se calculează lunar cu metoda USDA SCS, fără rezervă de apă în sol, deci la cultura neirigată rezultatul este o valoare minimă.</li><li>Coeficienții și duratele FAO-56 sunt valori tipice, neadaptate local; unde FAO dă un interval pentru Kc final se folosește mijlocul lui.</li><li>Randamentul implicit este media 2021–2025 INS TEMPO (AGR110A) pentru Regiunea București–Ilfov, irigat și neirigat laolaltă. Pentru Cipru, Grecia și Polonia introdu randamentul local.</li><li>Dozele de azot implicite sunt ilustrative: înlocuiește-le cu doza reală.</li><li>Nu include apa din procesare, transport, ambalare sau din sere, iar rezultatele sunt orientative, nu un audit.</li></ul>
+        <h3 class="mt">Surse</h3>
+        <ul class="wf-list">
+          <li>Allen, R.G., Pereira, L.S., Raes, D., Smith, M. (1998). <a href="https://www.fao.org/4/x0490e/x0490e00.htm" rel="noopener">Crop evapotranspiration: guidelines for computing crop water requirements</a>. FAO Irrigation and Drainage Paper 56.</li>
+          <li>Hoekstra, A.Y., Chapagain, A.K., Aldaya, M.M., Mekonnen, M.M. (2011). The Water Footprint Assessment Manual: Setting the Global Standard. Earthscan, London. <a href="https://www.waterfootprint.org/" rel="noopener">waterfootprint.org</a></li>
+          <li>Date de intrare: INS TEMPO (randamente) și <a href="https://open-meteo.com/" rel="noopener">Weather data by Open-Meteo.com</a> (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a>).</li>
+          <li>Cercetări conexe ale echipei: evapotranspirația și necesarul de apă al culturilor în nordul regiunii București–Ilfov. <a href="https://doi.org/10.3390/agriculture15111227" rel="noopener">Mincu et al., Agriculture 2025, 15, 1227</a>.</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 </main>
@@ -243,9 +290,10 @@
     </div>
   </div>
 </footer>
-<script src="assets/site.js" defer></script>
-<script src="assets/dashboard/echarts.min.js" defer></script>
-<script src="assets/dashboard/xlsx.js" defer></script>
-<script src="assets/dashboard.js" defer></script>
+<script src="assets/site.js?v=44921c67" defer></script>
+<script src="assets/dashboard/echarts.min.js?v=f1dc91b4" defer></script>
+<script src="assets/dashboard/xlsx.js?v=efa2cb43" defer></script>
+<script src="assets/dashboard.js?v=3e927984" defer></script>
+<script src="assets/waterfootprint.js?v=35a0dd75" defer></script>
 </body>
 </html>

@@ -45,6 +45,7 @@
     });
     if (push) { try { history.replaceState(null, '', id === 'agri' ? location.pathname : '#' + id); } catch (e) {} }
     if (hooks[id]) hooks[id]();
+    window.dispatchEvent(new CustomEvent('f4f:tab', { detail: id }));
     window.dispatchEvent(new Event('resize'));
   }
   tabs.forEach(t => t.addEventListener('click', () => showTab(t.id.slice(4), true)));

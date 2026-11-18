@@ -22,6 +22,9 @@ Codul stă în `assets/dashboard.js` și `assets/dashboard.css`, iar datele în 
 linie din `_src/*/registru.html`, cheile `"css"` și `"js"` spun ce fișiere suplimentare primește pagina.
 Tabul Calitatea aerului are grafice din `assets/dashboard/air.json` (EEA, stațiile din București, 2013–2025) și un catalog de surse deschise.
 Fișierul se reface cu `python tools/build_air.py` (cere `pip install pyarrow` și internet, nu cont). Cardurile de surse sunt scrise direct în `_src/*/registru.html`.
+Tabul Amprenta de apă este un calculator (`assets/waterfootprint.js`): ETc = Kc × ET0 după FAO-56, apă verde / albastră / cenușie după manualul Water Footprint Network.
+Datele lui stau în `assets/dashboard/wf.json` (ET0 și ploaie lunară 1991–2020 pentru cele patru țări cu laboratoare active, prin Open-Meteo, plus randamentele INS pentru București–Ilfov);
+se refac cu `python tools/build_wf.py` (cere internet, nu cont; Open-Meteo poate limita cererile, scriptul reîncearcă singur). Coeficienții culturilor sunt în `CROPS` din `waterfootprint.js`.
 Pagina „Metodologie” (`metodologie.html` / `en/methodology.html`) are taburi simple (`assets/tabs.js`); conținutul ei este încă un draft de lucru.
 Pentru date noi se înlocuiesc `data.json` / `meteo.json` și, dacă apar indicatori noi, rândurile din tabelul din `_src/*/registru.html`.
 

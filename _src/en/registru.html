@@ -1,4 +1,4 @@
-<!-- {"title": "Dashboard", "desc": "FEED4FOOD Romania data registry: INS TEMPO agricultural indicators and ANM climate series for Bucharest–Ilfov, with charts and Excel export.", "nav": "registru", "css": ["assets/dashboard.css"], "js": ["assets/dashboard/echarts.min.js", "assets/dashboard/xlsx.js", "assets/dashboard.js"]} -->
+<!-- {"title": "Dashboard", "desc": "FEED4FOOD Romania data registry: INS TEMPO agricultural indicators and ANM climate series for Bucharest–Ilfov, with charts and Excel export.", "nav": "registru", "css": ["assets/dashboard.css"], "js": ["assets/dashboard/echarts.min.js", "assets/dashboard/xlsx.js", "assets/dashboard.js", "assets/waterfootprint.js"]} -->
 <header class="page-head">
   <div class="wrap">
     <span class="eyebrow">Dashboard</span>
@@ -13,6 +13,7 @@
       <button type="button" role="tab" id="tab-agri" aria-controls="p-agri" aria-selected="true">Agriculture</button>
       <button type="button" role="tab" id="tab-clima" aria-controls="p-clima" aria-selected="false">Climate</button>
       <button type="button" role="tab" id="tab-aer" aria-controls="p-aer" aria-selected="false">Air quality</button>
+      <button type="button" role="tab" id="tab-apa" aria-controls="p-apa" aria-selected="false">Water footprint</button>
     </div>
 
     <div role="tabpanel" id="p-agri" aria-labelledby="tab-agri">
@@ -153,6 +154,52 @@
 <article class="card src"><span class="tag">Aggregator</span><h3>OpenAQ</h3><p class="src-by">Organizație nonprofit</p><p>Free access, through a map and an API, to air quality data collected from official providers worldwide. Check which Romanian stations are listed before relying on it.</p><dl class="kv"><dt>Access</dt><dd>Interactive map and API</dd></dl><p class="src-links"><a href="https://openaq.org/" rel="noopener">openaq.org</a></p></article>
       </div>
       <p class="dash-note mt">Links lead to the original providers; downloadable datasets are not hosted here. Check each provider&#x27;s terms before redistributing the data. The information about sources was checked on the providers&#x27; own pages in November 2026.</p>
+    </div>
+
+    <div role="tabpanel" id="p-apa" aria-labelledby="tab-apa" hidden>
+      <div class="section-head"><h2>Crop water footprint</h2><p>Calculate the water footprint of a crop per kilogram of product, in the same style as a carbon footprint: green water (rain), blue water (irrigation) and grey water (the water needed to dilute nitrogen lost to the environment). Choose the country, the crop and the planting date; the default yield is the INS average for Bucharest–Ilfov.</p></div>
+      <div id="wf">
+        <div class="dash-detail">
+          <div class="wf-form">
+            <label class="dash-field"><span>Country</span><select id="wf-loc"></select><small id="wf-loc-hint" class="wf-hint"></small></label>
+            <label class="dash-field"><span>Crop</span><select id="wf-crop"></select></label>
+            <label class="dash-field"><span>Planting month</span><select id="wf-month"></select></label>
+            <label class="dash-field"><span>Day</span><input type="number" id="wf-day" min="1" max="31" step="1" inputmode="numeric"></label>
+            <label class="dash-field"><span>Water for the crop</span><select id="wf-irr"></select></label>
+            <label class="dash-field"><span>Yield (t/ha)</span><input type="number" id="wf-yield" min="0.1" step="0.1" inputmode="decimal"><small id="wf-yield-hint" class="wf-hint"></small></label>
+            <label class="dash-field"><span>Nitrogen applied (kg N/ha)</span><input type="number" id="wf-n" min="0" step="5" inputmode="numeric"></label>
+            <div class="dash-field wf-reset"><button type="button" class="btn outline sm" id="wf-reset">Default values</button></div>
+          </div>
+          <div id="wf-out">
+            <div class="wf-cards" aria-live="polite">
+              <div class="wf-card wf-card--total"><span class="wf-label">Total footprint</span><b id="wf-total">–</b><span class="wf-unit">litres of water per kilogram</span><span class="wf-sub" id="wf-100"></span></div>
+              <div class="wf-card wf-card--g"><span class="wf-label">Green water</span><b id="wf-g">–</b><span class="wf-sub">rain used by the plant</span></div>
+              <div class="wf-card wf-card--b"><span class="wf-label">Blue water</span><b id="wf-b">–</b><span class="wf-sub">irrigation needed</span></div>
+              <div class="wf-card wf-card--y"><span class="wf-label">Grey water</span><b id="wf-y">–</b><span class="wf-sub">diluting lost nitrogen</span></div>
+            </div>
+            <p class="dash-note" id="wf-season"></p>
+            <p class="dash-note" id="wf-ha"></p>
+            <p class="dash-note wf-warn" id="wf-note" hidden></p>
+            <h3 id="wf-cmp-title" class="wf-h3"></h3>
+            <div class="dash-chart wf-chart-tall" id="wf-cmp" role="img" aria-label="Crop water footprint"></div>
+            <h3 class="wf-h3">Water by month, during the growing season</h3>
+            <div class="dash-chart" id="wf-mon" role="img" aria-label="Water by month, during the growing season"></div>
+            <div class="dash-tablehead"><b>Values by month</b><button type="button" class="btn outline sm" id="wf-xlsx">Excel</button></div>
+            <div class="dash-scroll"><table class="dash-table" id="wf-table"></table></div>
+          </div>
+        </div>
+        <h3 class="mt">How it is calculated</h3>
+        <ul class="wf-list"><li>Crop water need is calculated day by day as ETc = Kc × ET0, using the crop coefficients Kc and stage lengths of FAO-56 (Allen et al., 1998, Tables 11 and 12).</li><li>Green water is the smaller of ETc and effective rain; blue water is the difference up to ETc (irrigated crop only); grey water is α × N / (c<sub>max</sub> − c<sub>nat</sub>), with α = 10% of nitrogen lost, c<sub>max</sub> = 10 mg N/L and c<sub>nat</sub> = 0.</li><li>The footprint (litres per kg) is the water used per hectare (m³/ha) divided by the yield (t/ha), following the Water Footprint Network manual (Hoekstra et al., 2011).</li></ul>
+        <h3 class="mt">Assumptions and limits</h3>
+        <ul class="wf-list"><li>ET0 and precipitation are 1991–2020 monthly averages from weather reanalyses (Open-Meteo, CC BY 4.0), not measurements, computed for one or two points in each country (see under the Country field), so they do not represent the whole country; effective rain is computed monthly with the USDA SCS method with no soil water store, so for a rain-fed crop the result is a lower bound.</li><li>FAO-56 coefficients and stage lengths are typical values, not adapted locally; where FAO gives a range for the final Kc, its midpoint is used.</li><li>The default yield is the 2021–2025 INS TEMPO average (AGR110A) for the Bucharest–Ilfov Region, irrigated and rain-fed together. For Cyprus, Greece and Poland, enter the local yield.</li><li>Default nitrogen rates are illustrative: replace them with the actual rate.</li><li>It does not include water used in processing, transport, packaging or greenhouses, and results are indicative, not an audit.</li></ul>
+        <h3 class="mt">Sources</h3>
+        <ul class="wf-list">
+          <li>Allen, R.G., Pereira, L.S., Raes, D., Smith, M. (1998). <a href="https://www.fao.org/4/x0490e/x0490e00.htm" rel="noopener">Crop evapotranspiration: guidelines for computing crop water requirements</a>. FAO Irrigation and Drainage Paper 56.</li>
+          <li>Hoekstra, A.Y., Chapagain, A.K., Aldaya, M.M., Mekonnen, M.M. (2011). The Water Footprint Assessment Manual: Setting the Global Standard. Earthscan, London. <a href="https://www.waterfootprint.org/" rel="noopener">waterfootprint.org</a></li>
+          <li>Input data: INS TEMPO (yields) and <a href="https://open-meteo.com/" rel="noopener">Weather data by Open-Meteo.com</a> (<a href="https://creativecommons.org/licenses/by/4.0/" rel="noopener">CC BY 4.0</a>).</li>
+          <li>Related research by the team: evapotranspiration and crop water requirements in the northern Bucharest–Ilfov region. <a href="https://doi.org/10.3390/agriculture15111227" rel="noopener">Mincu et al., Agriculture 2025, 15, 1227</a>.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>

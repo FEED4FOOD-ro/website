@@ -14,12 +14,19 @@ respectivă (ex. în engleză "about.html"), iar imaginile "img/...".
 Rulează:  python build.py
 Meniul, subsolul și textele comune se schimbă o singură dată, aici.
 """
+import hashlib
 import html
 import json
 import re
 from pathlib import Path
 
 ROOT = Path(__file__).parent
+
+
+def ver(rel):
+    """Cod scurt din conținutul fișierului; schimbă adresa (?v=...) când fișierul se modifică, ca browserele să nu păstreze versiuni vechi."""
+    f = ROOT / rel
+    return hashlib.md5(f.read_bytes()).hexdigest()[:8] if f.exists() else "0"
 SRC = ROOT / "_src"
 LANGS = ("ro", "en")
 
@@ -105,7 +112,7 @@ TEMPLATE = """<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{base}assets/style.css">
+<link rel="stylesheet" href="{base}assets/style.css?v={v_css}">
 {head_extra}</head>
 <body>
 <a class="skip" href="#main">{skip}</a>
@@ -159,7 +166,7 @@ TEMPLATE = """<!doctype html>
     </div>
   </div>
 </footer>
-<script src="{base}assets/site.js" defer></script>
+<script src="{base}assets/site.js?v={v_js}" defer></script>
 {scripts_extra}</body>
 </html>
 """
@@ -192,10 +199,10 @@ def build_page(lang, key):
     footnav = "\n".join(f'          <li><a href="{PAGES[k][lang]}">{label}</a></li>' for k, label in NAV[lang])
     title = meta["title"] if key == "index" else f'{meta["title"]} · {t["site"]}'
     # fișiere suplimentare doar pentru anumite pagini: "css" și "js" în comentariul de pe prima linie
-    head_extra = "".join(f'<link rel="stylesheet" href="{base}{f}">\n' for f in meta.get("css", []))
-    scripts_extra = "".join(f'<script src="{base}{f}" defer></script>\n' for f in meta.get("js", []))
+    head_extra = "".join(f'<link rel="stylesheet" href="{base}{f}?v={ver(f)}">\n' for f in meta.get("css", []))
+    scripts_extra = "".join(f'<script src="{base}{f}?v={ver(f)}" defer></script>\n' for f in meta.get("js", []))
     page = TEMPLATE.format(
-        head_extra=head_extra, scripts_extra=scripts_extra,
+        head_extra=head_extra, scripts_extra=scripts_extra, v_css=ver("assets/style.css"), v_js=ver("assets/site.js"),
         lang=lang, base=base, title=html.escape(title), desc=html.escape(meta.get("desc", "")),
         nav=nav, footnav=footnav, body=body,
         sw_ro=rel(lang, "ro", PAGES[key]["ro"]), sw_en=rel(lang, "en", PAGES[key]["en"]),
